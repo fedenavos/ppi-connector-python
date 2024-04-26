@@ -1,22 +1,15 @@
-from ppi_client.api.constants import ACCOUNTDATA_TYPE_ACCOUNT_NOTIFICATION, ACCOUNTDATA_TYPE_PUSH_NOTIFICATION, \
-    ACCOUNTDATA_TYPE_ORDER_NOTIFICATION
-from ppi_client.models.account_movements import AccountMovements
-from ppi_client.models.bank_account_request import BankAccountRequest
-from ppi_client.models.foreign_bank_account_request import ForeignBankAccountRequest, ForeignBankAccountRequestDTO
-from ppi_client.models.cancel_bank_account_request import CancelBankAccountRequest
-from ppi_client.models.order import Order
 from ppi_client.ppi import PPI
-from ppi_client.models.order_budget import OrderBudget
-from ppi_client.models.order_confirm import OrderConfirm
-from ppi_client.models.disclaimer import Disclaimer
-from ppi_client.models.investing_profile import InvestingProfile
-from ppi_client.models.investing_profile_answer import InvestingProfileAnswer
 from ppi_client.models.instrument import Instrument
-from datetime import datetime, timedelta
-import asyncio
+from datetime import datetime
 import json
 import traceback
 import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+public_key = os.getenv("PUBLIC_API_KEY")
+private_key = os.getenv("PRIVATE_API_KEY")
 
 # Change sandbox variable to True to connect to sandbox environment
 ppi = PPI(sandbox=False)
@@ -25,7 +18,7 @@ ppi = PPI(sandbox=False)
 def main():
     try:
         # Change login credential to connect to the API
-        ppi.account.login_api('<key publica>', '<key privada>')
+        ppi.account.login_api(public_key, private_key)
 
         # Realtime subscription to market data
         def onconnect_marketdata():
